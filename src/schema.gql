@@ -1,0 +1,30 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Companion {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Query {
+  companions: [Companion!]!
+  companion(id: Int!): Companion!
+}
+
+type Mutation {
+  createCompanion(createCompanionInput: CreateCompanionInput!): Companion!
+  updateCompanion(updateCompanionInput: UpdateCompanionInput!): Companion!
+  removeCompanion(id: Int!): Companion!
+}
+
+input CreateCompanionInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCompanionInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
