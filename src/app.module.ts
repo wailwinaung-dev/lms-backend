@@ -10,6 +10,7 @@ import { AuthGuard } from './modules/auth/auth.guard';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './common/configs/configuration';
 import { ClerkClientProvider } from './common/providers/clerk-client.provider';
+import { PrismaModule } from './shared/prisma/prisma.module';
 
 @Module({
   imports: [
@@ -24,6 +25,8 @@ import { ClerkClientProvider } from './common/providers/clerk-client.provider';
       isGlobal: true,
       load: [configuration],
     }),
+
+    PrismaModule,
   ],
   providers: [
     AppService,

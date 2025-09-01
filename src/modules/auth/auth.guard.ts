@@ -30,10 +30,7 @@ export class AuthGuard implements CanActivate {
 
     try {
       const tokenPayload = await verifyToken(token, {
-        secretKey: this.configService.get('cleark.secretKey'),
-        authorizedParties: ['http://localhost:3001'],
         jwtKey: this.configService.get('clerk.jwtKey'),
-        apiUrl: 'https://api.clerk.com',
       });
 
       const user = await this.clerkClient.users.getUser(tokenPayload.sub);

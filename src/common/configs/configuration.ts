@@ -4,4 +4,7 @@ export default () => ({
     secretKey: process.env.CLERK_SECRET_KEY,
     jwtKey: process.env.CLERK_JWT_KEY,
   },
+  database: {
+    url: process.env.DATABASE_URL,
+  },
 });
