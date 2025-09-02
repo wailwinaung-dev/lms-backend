@@ -6,10 +6,10 @@ import { PrismaService } from 'src/shared/prisma/prisma.service';
 @Injectable()
 export class CompanionsService {
   constructor(private prisma: PrismaService) {}
-  create(createCompanionInput: CreateCompanionInput) {
+  create(createCompanionInput: CreateCompanionInput, id: string) {
     const updatedInput = {
       ...createCompanionInput,
-      author: 'testing',
+      author: id,
     };
     return this.prisma.companions.create({ data: updatedInput });
   }

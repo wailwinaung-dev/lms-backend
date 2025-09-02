@@ -3,14 +3,18 @@ import { CompanionsService } from './companions.service';
 import { Companion } from './entities/companion.entity';
 import { CreateCompanionInput } from './dto/create-companion.input';
 import { UpdateCompanionInput } from './dto/update-companion.input';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
 
 @Resolver(() => Companion)
 export class CompanionsResolver {
   constructor(private readonly companionsService: CompanionsService) {}
 
   @Mutation(() => Companion)
-  createCompanion(@Args('createCompanionInput') createCompanionInput: CreateCompanionInput) {
-    return this.companionsService.create(createCompanionInput);
+  createCompanion(
+    @Args('createCompanionInput') createCompanionInput: CreateCompanionInput,
+    @CurrentUser('id') id: string,
+  ) {
+    return this.companionsService.create(createCompanionInput, id);
   }
 
   @Query(() => [Companion], { name: 'companions' })
@@ -24,8 +28,13 @@ export class CompanionsResolver {
   }
 
   @Mutation(() => Companion)
-  updateCompanion(@Args('updateCompanionInput') updateCompanionInput: UpdateCompanionInput) {
-    return this.companionsService.update(updateCompanionInput.id, updateCompanionInput);
+  updateCompanion(
+    @Args('updateCompanionInput') updateCompanionInput: UpdateCompanionInput,
+  ) {
+    return this.companionsService.update(
+      updateCompanionInput.id,
+      updateCompanionInput,
+    );
   }
 
   @Mutation(() => Companion)
