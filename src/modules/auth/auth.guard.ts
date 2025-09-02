@@ -23,6 +23,7 @@ export class AuthGuard implements CanActivate {
     }>();
 
     const token = req.headers.authorization?.split(' ').pop();
+    console.log('Access Token > ', token);
 
     if (!token) {
       throw new UnauthorizedException('No token provided');

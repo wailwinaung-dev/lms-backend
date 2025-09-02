@@ -3,8 +3,29 @@
 # ------------------------------------------------------
 
 type Companion {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """The id of the companion"""
+  id: String!
+
+  """The name of the companion"""
+  name: String!
+
+  """The subject of the companion"""
+  subject: String!
+
+  """The topic of the companion"""
+  topic: String!
+
+  """The style of the companion"""
+  style: String!
+
+  """The voice of the companion"""
+  voice: String!
+
+  """The duration of the companion"""
+  duration: Int!
+
+  """The author of the companion"""
+  author: String!
 }
 
 type Query {
@@ -19,12 +40,42 @@ type Mutation {
 }
 
 input CreateCompanionInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """The name of the companion"""
+  name: String!
+
+  """The subject of the companion"""
+  subject: String!
+
+  """The topic of the companion"""
+  topic: String!
+
+  """The style of the companion"""
+  style: String!
+
+  """The voice of the companion"""
+  voice: String!
+
+  """The duration of the companion"""
+  duration: Int!
 }
 
 input UpdateCompanionInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  """The name of the companion"""
+  name: String
+
+  """The subject of the companion"""
+  subject: String
+
+  """The topic of the companion"""
+  topic: String
+
+  """The style of the companion"""
+  style: String
+
+  """The voice of the companion"""
+  voice: String
+
+  """The duration of the companion"""
+  duration: Int
   id: Int!
 }
