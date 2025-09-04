@@ -2,6 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
 type Companion {
   """The id of the companion"""
   id: String!
@@ -28,8 +35,18 @@ type Companion {
   author: String!
 }
 
+type CompanionConnection {
+  edges: [CompanionEdge!]
+  pageInfo: PageInfo
+}
+
+type CompanionEdge {
+  cursor: String!
+  node: Companion!
+}
+
 type Query {
-  companions: [Companion!]!
+  companions(first: Int, after: String, last: Int, before: String): CompanionConnection!
   companion(id: Int!): Companion!
 }
 

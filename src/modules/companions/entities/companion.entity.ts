@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { PaginatedConnection } from 'src/common/pagination/pagination-connection';
 
 @ObjectType()
 export class Companion {
@@ -26,3 +27,6 @@ export class Companion {
   @Field(() => String, { description: 'The author of the companion' })
   author: string;
 }
+
+@ObjectType()
+export class CompanionConnection extends PaginatedConnection(Companion) {}

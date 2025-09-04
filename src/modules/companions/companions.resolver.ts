@@ -1,9 +1,10 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { CompanionsService } from './companions.service';
-import { Companion } from './entities/companion.entity';
+import { Companion, CompanionConnection } from './entities/companion.entity';
 import { CreateCompanionInput } from './dto/create-companion.input';
 import { UpdateCompanionInput } from './dto/update-companion.input';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
+import { PaginationArgs } from 'src/common/pagination/pagination.args';
 
 @Resolver(() => Companion)
 export class CompanionsResolver {
@@ -17,9 +18,9 @@ export class CompanionsResolver {
     return this.companionsService.create(createCompanionInput, id);
   }
 
-  @Query(() => [Companion], { name: 'companions' })
-  findAll() {
-    return this.companionsService.findAll();
+  @Query(() => CompanionConnection, { name: 'companions' })
+  findAll(@Args() paginationArg: PaginationArgs) {
+    return this.companionsService.findAll(paginationArg);
   }
 
   @Query(() => Companion, { name: 'companion' })

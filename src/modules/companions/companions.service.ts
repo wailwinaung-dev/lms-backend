@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateCompanionInput } from './dto/create-companion.input';
 import { UpdateCompanionInput } from './dto/update-companion.input';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
+import { PaginationArgs } from 'src/common/pagination/pagination.args';
+import { PageInfo } from 'src/common/pagination/pagination-connection';
 
 @Injectable()
 export class CompanionsService {
@@ -14,8 +16,50 @@ export class CompanionsService {
     return this.prisma.companions.create({ data: updatedInput });
   }
 
-  findAll() {
-    return `This action returns all companions`;
+  async findAll(paginationArgs: PaginationArgs) {
+    const { first, after, last, before } = paginationArgs;
+
+    const take = first ?? last ?? 10;
+    let cursor: any = undefined;
+    let skip: number | undefined = undefined;
+    let orderBy: any = [{ createdAt: 'desc' }, { id: 'desc' }];
+
+    // Forward pagination
+    if (after) {
+      cursor = after ? { id: after } : undefined;
+      skip = 1;
+    }
+
+    // Backward pagination
+    if (before) {
+      cursor = before ? { id: before } : undefined;
+      skip = 1;
+      orderBy = [{ createdAt: 'asc' }, { id: 'asc' }];
+    }
+
+    const companions = await this.prisma.companions.findMany({
+      take,
+      skip,
+      cursor,
+      orderBy,
+    });
+
+    // If we reversed the order (before), put back into ascending
+    const items = before ? companions.reverse() : companions;
+
+    const edges = items.map((c) => ({
+      node: c,
+      cursor: c.id.toString(),
+    }));
+
+    const pageInfo = {
+      startCursor: edges.length > 0 ? edges[0].cursor : null,
+      endCursor: edges.length > 0 ? edges[edges.length - 1].cursor : null,
+      hasNextPage: companions.length === take,
+      hasPreviousPage: !!after,
+    };
+
+    return { edges, pageInfo };
   }
 
   findOne(id: number) {
