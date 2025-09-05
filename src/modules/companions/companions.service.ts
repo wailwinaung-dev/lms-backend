@@ -19,7 +19,7 @@ export class CompanionsService {
   async findAll(paginationArgs: PaginationArgs) {
     const { first, after, last, before } = paginationArgs;
 
-    const take = first ?? last ?? 10;
+    const take = first ?? last ?? 3;
     let cursor: any = undefined;
     let skip: number | undefined = undefined;
     let orderBy: any = [{ createdAt: 'desc' }, { id: 'desc' }];
@@ -37,13 +37,15 @@ export class CompanionsService {
       orderBy = [{ createdAt: 'asc' }, { id: 'asc' }];
     }
 
-    const companions = await this.prisma.companions.findMany({
-      take,
+    const rowsPlusOne = await this.prisma.companions.findMany({
+      take: take + 1,
       skip,
       cursor,
-      orderBy,
+      orderBy, // desc
     });
 
+    const hasExtra = rowsPlusOne.length > take;
+    const companions = rowsPlusOne.slice(0, take); // trim extra
     // If we reversed the order (before), put back into ascending
     const items = before ? companions.reverse() : companions;
 
@@ -55,8 +57,8 @@ export class CompanionsService {
     const pageInfo = {
       startCursor: edges.length > 0 ? edges[0].cursor : null,
       endCursor: edges.length > 0 ? edges[edges.length - 1].cursor : null,
-      hasNextPage: companions.length === take,
-      hasPreviousPage: !!after,
+      hasNextPage: before ? Boolean(before) : hasExtra,
+      hasPreviousPage: before ? hasExtra : Boolean(after),
     };
 
     return { edges, pageInfo };

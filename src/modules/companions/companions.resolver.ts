@@ -20,6 +20,7 @@ export class CompanionsResolver {
 
   @Query(() => CompanionConnection, { name: 'companions' })
   findAll(@Args() paginationArg: PaginationArgs) {
+    console.log(paginationArg);
     return this.companionsService.findAll(paginationArg);
   }
 
