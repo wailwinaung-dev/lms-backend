@@ -4,6 +4,8 @@ import { UpdateCompanionInput } from './dto/update-companion.input';
 import { PrismaService } from 'src/shared/prisma/prisma.service';
 import { PaginationArgs } from 'src/common/pagination/pagination.args';
 import { PageInfo } from 'src/common/pagination/pagination-connection';
+import { FilterCompanionArgs } from './dto/filter-companion.args';
+import { Prisma } from 'generated/prisma';
 
 @Injectable()
 export class CompanionsService {
@@ -16,10 +18,23 @@ export class CompanionsService {
     return this.prisma.companions.create({ data: updatedInput });
   }
 
-  async findAll(paginationArgs: PaginationArgs) {
-    const { first, after, last, before } = paginationArgs;
+  async findAll(args: FilterCompanionArgs) {
+    const { first, after, last, before, filter, subject } = args;
 
-    const take = first ?? last ?? 3;
+    const where: Prisma.CompanionsWhereInput = {};
+
+    if (filter) {
+      where.OR = [
+        { name: { contains: filter, mode: 'insensitive' } },
+        { topic: { contains: filter, mode: 'insensitive' } },
+      ];
+    }
+
+    if (subject) {
+      where.subject = { equals: subject };
+    }
+
+    const take = first ?? last ?? 9;
     let cursor: any = undefined;
     let skip: number | undefined = undefined;
     let orderBy: any = [{ createdAt: 'desc' }, { id: 'desc' }];
@@ -41,7 +56,8 @@ export class CompanionsService {
       take: take + 1,
       skip,
       cursor,
-      orderBy, // desc
+      orderBy,
+      where, // desc
     });
 
     const hasExtra = rowsPlusOne.length > take;

@@ -5,6 +5,7 @@ import { CreateCompanionInput } from './dto/create-companion.input';
 import { UpdateCompanionInput } from './dto/update-companion.input';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { PaginationArgs } from 'src/common/pagination/pagination.args';
+import { FilterCompanionArgs } from './dto/filter-companion.args';
 
 @Resolver(() => Companion)
 export class CompanionsResolver {
@@ -19,9 +20,8 @@ export class CompanionsResolver {
   }
 
   @Query(() => CompanionConnection, { name: 'companions' })
-  findAll(@Args() paginationArg: PaginationArgs) {
-    console.log(paginationArg);
-    return this.companionsService.findAll(paginationArg);
+  findAll(@Args() args: FilterCompanionArgs) {
+    return this.companionsService.findAll(args);
   }
 
   @Query(() => Companion, { name: 'companion' })
