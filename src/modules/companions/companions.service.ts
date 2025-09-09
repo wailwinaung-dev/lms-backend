@@ -80,8 +80,8 @@ export class CompanionsService {
     return { edges, pageInfo };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} companion`;
+  findOne(id: string) {
+    return this.prisma.companions.findUnique({ where: { id } });
   }
 
   update(id: number, updateCompanionInput: UpdateCompanionInput) {

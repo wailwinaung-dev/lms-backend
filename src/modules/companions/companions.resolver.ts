@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ID } from '@nestjs/graphql';
 import { CompanionsService } from './companions.service';
 import { Companion, CompanionConnection } from './entities/companion.entity';
 import { CreateCompanionInput } from './dto/create-companion.input';
@@ -6,6 +6,7 @@ import { UpdateCompanionInput } from './dto/update-companion.input';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { PaginationArgs } from 'src/common/pagination/pagination.args';
 import { FilterCompanionArgs } from './dto/filter-companion.args';
+import { Public } from '../auth/auth.guard';
 
 @Resolver(() => Companion)
 export class CompanionsResolver {
@@ -19,13 +20,14 @@ export class CompanionsResolver {
     return this.companionsService.create(createCompanionInput, id);
   }
 
-  @Query(() => CompanionConnection, { name: 'companions' })
+  @Public()
+  @Query(() => CompanionConnection, { name: 'companions', nullable: true })
   findAll(@Args() args: FilterCompanionArgs) {
     return this.companionsService.findAll(args);
   }
 
-  @Query(() => Companion, { name: 'companion' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  @Query(() => Companion, { name: 'companion', nullable: true })
+  findOne(@Args('id', { type: () => ID }) id: string) {
     return this.companionsService.findOne(id);
   }
 
