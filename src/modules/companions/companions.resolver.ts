@@ -36,6 +36,11 @@ export class CompanionsResolver {
     return this.companionsService.findByUser(userId);
   }
 
+  @Query(() => Int, { name: 'totalCountByUser', nullable: true })
+  totalCountByUser(@CurrentUser('id') userId: string) {
+    return this.companionsService.totalCountByUser(userId);
+  }
+
   @Mutation(() => Companion)
   updateCompanion(
     @Args('updateCompanionInput') updateCompanionInput: UpdateCompanionInput,

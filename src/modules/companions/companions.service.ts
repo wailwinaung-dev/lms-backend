@@ -92,6 +92,10 @@ export class CompanionsService {
     });
   }
 
+  totalCountByUser(userId: string) {
+    return this.prisma.companions.count({ where: { author: userId } });
+  }
+
   update(id: number, updateCompanionInput: UpdateCompanionInput) {
     return `This action updates a #${id} companion`;
   }
