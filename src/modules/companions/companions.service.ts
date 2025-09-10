@@ -84,6 +84,14 @@ export class CompanionsService {
     return this.prisma.companions.findUnique({ where: { id } });
   }
 
+  findByUser(userId: string) {
+    return this.prisma.companions.findMany({
+      where: { author: userId },
+      orderBy: { createdAt: 'desc' },
+      take: 10,
+    });
+  }
+
   update(id: number, updateCompanionInput: UpdateCompanionInput) {
     return `This action updates a #${id} companion`;
   }

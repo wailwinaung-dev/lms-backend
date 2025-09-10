@@ -68,8 +68,10 @@ scalar DateTime
 type Query {
   companions(first: Int, after: String, last: Int, before: String, filter: String, subject: String): CompanionConnection
   companion(id: ID!): Companion
+  companionsByUser: [Companion!]
   sessionHistories: [SessionHistory!]!
   sessionHistory(id: Int!): SessionHistory!
+  sessionHistoriesByUser: [SessionHistory!]!
 }
 
 type Mutation {

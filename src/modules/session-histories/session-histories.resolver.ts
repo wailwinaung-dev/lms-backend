@@ -33,6 +33,11 @@ export class SessionHistoriesResolver {
     return this.sessionHistoriesService.findOne(id);
   }
 
+  @Query(() => [SessionHistory], { name: 'sessionHistoriesByUser' })
+  findByUser(@CurrentUser('id') userId: string) {
+    return this.sessionHistoriesService.findByUser(userId);
+  }
+
   @Mutation(() => SessionHistory)
   updateSessionHistory(
     @Args('updateSessionHistoryInput')

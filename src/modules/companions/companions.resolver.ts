@@ -31,6 +31,11 @@ export class CompanionsResolver {
     return this.companionsService.findOne(id);
   }
 
+  @Query(() => [Companion], { name: 'companionsByUser', nullable: true })
+  findByUser(@CurrentUser('id') userId: string) {
+    return this.companionsService.findByUser(userId);
+  }
+
   @Mutation(() => Companion)
   updateCompanion(
     @Args('updateCompanionInput') updateCompanionInput: UpdateCompanionInput,

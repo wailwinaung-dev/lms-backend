@@ -27,6 +27,15 @@ export class SessionHistoriesService {
     return `This action returns a #${id} sessionHistory`;
   }
 
+  findByUser(userId: string) {
+    return this.prisma.sessionHistory.findMany({
+      where: { user_id: userId },
+      include: { Companion: true },
+      orderBy: { createdAt: 'desc' },
+      take: 10,
+    });
+  }
+
   update(id: number, updateSessionHistoryInput: UpdateSessionHistoryInput) {
     return `This action updates a #${id} sessionHistory`;
   }
