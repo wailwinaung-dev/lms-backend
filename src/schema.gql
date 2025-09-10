@@ -45,15 +45,39 @@ type CompanionEdge {
   node: Companion!
 }
 
+type SessionHistory {
+  """The id of the session history"""
+  id: String!
+
+  """The id of the user"""
+  user_id: String!
+
+  """The id of the companion"""
+  companion_id: String!
+
+  """The creation date of the session history"""
+  createdAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
   companions(first: Int, after: String, last: Int, before: String, filter: String, subject: String): CompanionConnection
   companion(id: ID!): Companion
+  sessionHistories: [SessionHistory!]!
+  sessionHistory(id: Int!): SessionHistory!
 }
 
 type Mutation {
   createCompanion(createCompanionInput: CreateCompanionInput!): Companion!
   updateCompanion(updateCompanionInput: UpdateCompanionInput!): Companion!
   removeCompanion(id: Int!): Companion!
+  createSessionHistory(createSessionHistoryInput: CreateSessionHistoryInput!): SessionHistory!
+  updateSessionHistory(updateSessionHistoryInput: UpdateSessionHistoryInput!): SessionHistory!
+  removeSessionHistory(id: Int!): SessionHistory!
 }
 
 input CreateCompanionInput {
@@ -94,5 +118,16 @@ input UpdateCompanionInput {
 
   """The duration of the companion"""
   duration: Int
+  id: Int!
+}
+
+input CreateSessionHistoryInput {
+  """Companion id"""
+  companion_id: ID!
+}
+
+input UpdateSessionHistoryInput {
+  """Companion id"""
+  companion_id: ID
   id: Int!
 }

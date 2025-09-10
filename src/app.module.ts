@@ -11,6 +11,7 @@ import { ConfigModule } from '@nestjs/config';
 import configuration from './common/configs/configuration';
 import { ClerkClientProvider } from './common/providers/clerk-client.provider';
 import { PrismaModule } from './shared/prisma/prisma.module';
+import { SessionHistoriesModule } from './modules/session-histories/session-histories.module';
 
 @Module({
   imports: [
@@ -27,6 +28,8 @@ import { PrismaModule } from './shared/prisma/prisma.module';
     }),
 
     PrismaModule,
+
+    SessionHistoriesModule,
   ],
   providers: [
     AppService,
