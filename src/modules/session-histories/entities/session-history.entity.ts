@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Companion } from 'src/modules/companions/entities/companion.entity';
 
 @ObjectType()
 export class SessionHistory {
@@ -12,4 +13,7 @@ export class SessionHistory {
     description: 'The creation date of the session history',
   })
   createdAt: Date;
+
+  @Field((type) => Companion)
+  Companion: Companion;
 }

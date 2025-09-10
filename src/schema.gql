@@ -57,6 +57,7 @@ type SessionHistory {
 
   """The creation date of the session history"""
   createdAt: DateTime!
+  Companion: Companion!
 }
 
 """

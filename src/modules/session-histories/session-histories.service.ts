@@ -16,7 +16,11 @@ export class SessionHistoriesService {
   }
 
   findAll() {
-    return `This action returns all sessionHistories`;
+    return this.prisma.sessionHistory.findMany({
+      include: { Companion: true },
+      orderBy: { createdAt: 'desc' },
+      take: 10,
+    });
   }
 
   findOne(id: number) {
